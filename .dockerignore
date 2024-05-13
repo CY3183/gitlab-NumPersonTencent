@@ -1,0 +1,4 @@
+venv
+common/test_conf.ini
+docker-compose.yml
+db.sqlite3
