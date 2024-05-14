@@ -1,0 +1,35 @@
+nameOverride: numperson-tencent
+
+service:
+  ports:
+    - port: 8000
+      name: numperson-tx
+      protocol: TCP
+
+applicationTLS:
+  certResolver: jet
+
+image:
+  pullPolicy: IfNotPresent
+  repository: registry.cn-hangzhou.aliyuncs.com/skylark/numperson-tencent
+  tag: latest
+
+env:
+  TZ: Asia/Shanghai
+
+volumeMounts:
+  - name: config
+    mountPath: /app/common/test_conf.ini
+    subPath: 'test_conf.ini'
+    readOnly: true
+
+volumes:
+  - name: config
+    secret:
+      secretName: numperson-tencent-production-config-secret
+
+tolerations:
+  - key: node.kubernetes.io/environment
+    operator: 'Equal'
+    value: production
+    effect: 'NoSchedule'
